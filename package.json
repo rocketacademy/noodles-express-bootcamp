@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/rocketacademy/noodles-express-swe1#readme",
   "devDependencies": {
-    "eslint": "^7.13.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4"
   },
   "type": "module",
   "dependencies": {
