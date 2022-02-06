@@ -8,8 +8,12 @@ const handleRecipeByIndex = (req, res) => {
     res.status(404).send('Sorry, we cannot find that!');
     return;
   }
+
   read('data.json', (err, data) => {
-    res.send(data.recipes[req.params.index]);
+    const recipe = data.recipes[req.params.index];
+
+    if (recipe) res.send(recipe);
+    else res.status(404).send('Sorry, we cannot find that!');
   });
 };
 app.get('/recipe/:index', handleRecipeByIndex);
@@ -22,7 +26,10 @@ const handleRecipeByYield = (req, res) => {
 
   const portion = parseInt(req.params.portion, 10);
   read('data.json', (err, data) => {
-    res.send(data.recipes.filter((recipe) => recipe.yield === portion));
+    const recipes = data.recipes.filter((recipe) => recipe.yield === portion);
+
+    if (recipes.length > 0) res.send(recipes);
+    else res.status(404).send('Sorry, we cannot find that!');
   });
 };
 app.get('/yield/:portion', handleRecipeByYield);
@@ -30,7 +37,10 @@ app.get('/yield/:portion', handleRecipeByYield);
 const handleRecipeByLabel = (req, res) => {
   const label = req.params.label.replaceAll('-', ' ');
   read('data.json', (err, data) => {
-    res.send(data.recipes.filter((recipe) => recipe.label.toLowerCase() === label));
+    const recipes = data.recipes.filter((recipe) => recipe.label.toLowerCase() === label);
+
+    if (recipes.length > 0) res.send(recipes);
+    else res.status(404).send('Sorry, we cannot find that!');
   });
 };
 app.get('/recipe-label/:label', handleRecipeByLabel);
