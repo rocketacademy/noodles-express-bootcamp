@@ -27,4 +27,12 @@ const handleRecipeByYield = (req, res) => {
 };
 app.get('/yield/:portion', handleRecipeByYield);
 
+const handleRecipeByLabel = (req, res) => {
+  const label = req.params.label.replaceAll('-', ' ');
+  read('data.json', (err, data) => {
+    res.send(data.recipes.filter((recipe) => recipe.label.toLowerCase() === label));
+  });
+};
+app.get('/recipe-label/:label', handleRecipeByLabel);
+
 app.listen(3004);
