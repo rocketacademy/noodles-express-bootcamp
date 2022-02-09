@@ -44,7 +44,7 @@
       <div class="row">
         <div class="col">
           <h3>
-            <a href="<%= recipe.url %>"><%= recipe.label %></a>
+            <a href="<%= recipe.url %>" target="_blank"><%= recipe.label %></a>
           </h3>
         </div>
       </div>
@@ -61,6 +61,11 @@
             <li><%= ingredient %></li>
             <% }); %>
           </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <a href="/category/<%= recipe.category.toLowerCase() %>">Back</a>
         </div>
       </div>
     </div>

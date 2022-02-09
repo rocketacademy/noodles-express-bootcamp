@@ -2,9 +2,3 @@ body {
   background-color: pink;
   color: white;
 }
-
-.my-container,
-.my-row,
-.my-column {
-  border: 1px solid black;
-}

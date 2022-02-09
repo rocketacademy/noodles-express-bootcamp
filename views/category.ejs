@@ -37,20 +37,56 @@
         <a class="navbar-brand" href="#">Navigation</a>
       </nav>
       <div class="row my-row">
-        <div class="col d-block d-md-none d-lg-none">
+        <div class="col d-block my-column">
           <h1>Noodles!</h1>
         </div>
       </div>
       <div class="row my-row">
-        <div class="col-12 col-lg-6 my-column">
-          <h2><%= recipes[0].category %> Noodles Recipes</h2>
+        <div class="col-12 my-column">
+          <h3><%= recipes[0].category %> Noodles Recipes</h3>
+          <p>
+            <a
+              href="?sortBy=source<%= ((sortBy === 'source') && (sortOrder === 'asc')) ? '&sortOrder=desc' : '&sortOrder=asc' %>"
+              >Sort by Source <% if ((sortBy === 'source') && (sortOrder ===
+              'asc')) { %>↑<% } else if ((sortBy === 'source') && (sortOrder ===
+              'desc')) { %>↓<% }%>
+            </a>
+            |
+            <a
+              href="?sortBy=label<%= ((sortBy === 'label') && (sortOrder === 'asc')) ? '&sortOrder=desc' : '&sortOrder=asc' %>"
+              >Sort by Label <% if ((sortBy === 'label') && (sortOrder ===
+              'asc')) { %>↑<% } else if ((sortBy === 'label') && (sortOrder ===
+              'desc')) { %>↓<% }%>
+            </a>
+            |
+            <a
+              href="?sortBy=yield<%= ((sortBy === 'yield') && (sortOrder === 'asc')) ? '&sortOrder=desc' : '&sortOrder=asc' %>"
+              >Sort by Yield <% if ((sortBy === 'yield') && (sortOrder ===
+              'asc')) { %>↑<% } else if ((sortBy === 'yield') && (sortOrder ===
+              'desc')) { %>↓<% }%>
+            </a>
+            |
+            <a
+              href="?sortBy=caution<%= ((sortBy === 'caution') && (sortOrder === 'asc')) ? '&sortOrder=desc' : '&sortOrder=asc' %>"
+              >Sort by Caution <% if ((sortBy === 'caution') && (sortOrder ===
+              'asc')) { %>↑<% } else if ((sortBy === 'caution') && (sortOrder
+              === 'desc')) { %>↓<% }%>
+            </a>
+          </p>
           <ul>
             <% recipes.forEach((recipe) => { %>
             <li>
-              <a href="/recipe/<%= recipe.index %>"><%= recipe.label %></a>
+              <a href="/recipe/<%= recipe.index %>"
+                ><%= recipe.label %> (<%= recipe.source %>)</a
+              >
             </li>
             <% }); %>
           </ul>
+        </div>
+      </div>
+      <div class="row my-row">
+        <div class="col my-col">
+          <a href="/">Back</a>
         </div>
       </div>
     </div>
