@@ -2,6 +2,8 @@ import express from 'express';
 import { read } from './jsonFileStorage.js';
 
 const app = express();
+app.use('view engine', 'ejs');
+app.use(express.static('public'));
 
 app.get('/recipe/:index', (req, res) => {
   // get index number from browser req
