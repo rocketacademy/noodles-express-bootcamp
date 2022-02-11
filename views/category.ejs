@@ -1,12 +1,9 @@
 <% for( let i = 0; i < filteredList.length; i++ ) { %>
+<p>Source: <%= filteredList[i].source%></p>
 <a href="/recipe/<%= filteredList[i].label.replace(/ /g, "").toLowerCase()  %> "
-  ><p>Source: <%= filteredList[i].source%></p></a
+  ><p>Label: <%= filteredList[i].label%></p></a
 >
-<p>Label: <%= filteredList[i].label%></p>
-<p>Url: <%= filteredList[i].url%></p>
-<p>Yield: <%= filteredList[i].yield%></p>
-<p>Caution: <%= filteredList[i].caution%></p>
-<p>Category: <%= filteredList[i].category%></p>
+
 <hr />
 
 <% } %>
