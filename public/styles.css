@@ -1,0 +1,20 @@
+.bgcolor1 {
+  background-color: #e6b89c;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.bgcolor2 {
+  background-color: #ed9390;
+  text-align: center;
+  padding-bottom: 50px;
+  padding-top: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+html {
+  background-color: #e6b89c;
+}
