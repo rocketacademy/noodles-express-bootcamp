@@ -1,0 +1,11 @@
+<ul>
+  <h2>Categories Below:</h2>
+
+  <% for( let index = 0; index < categoryAllNoDupes.length; index++ ) { %>
+  <li>
+    <a href="/category/<%= categoryAllNoDupes[index] %>"
+      ><%= categoryAllNoDupes[index]%></a
+    >
+  </li>
+  <% } %>
+</ul>

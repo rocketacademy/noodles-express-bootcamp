@@ -1,24 +1,101 @@
 import express from 'express';
-import { read } from './jsonFileStorage.js';
+import { add, read } from './jsonFileStorage.js';
 
 const app = express();
-app.use('view engine', 'ejs');
+app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-app.get('/recipe/:index', (req, res) => {
-  // get index number from browser req
-  const index = req.params.index;
-  read('data.json', (err, content) => {
+// configure express to parse request body data into request.body
+app.use(express.urlencoded({ extended: false }));
+
+app.get('/recipe', (req, res) => {
+  res.render('recipe');
+});
+
+// basic - POCE 2
+// save new recipe data sent via POST request from the form
+app.post('/recipe', (req, res) => {
+  add('data.json', 'recipes', req.body, (err) => {
     if (err) {
-      console.log('Read Error', err);
+      res.status(500).send('DB write error');
+      return;
     }
-    if (content.recipes[index]) {
-      res.send(content.recipes[index]);
-    } else {
-      res.status(404).send('We cannot find that.');
-    }
+    // acknowledge recipe saved
+    res.send('Saved recipe!');
   });
 });
+
+// comfortable - POCE 2
+app.get('/', (req, res) => {
+  read('data.json', (err, content) => {
+    if (err) {
+      console.log('Read error', err);
+    }
+    // get array of recipes
+    const { recipes } = content;
+    // filter out those recipes without categories
+    const filteredRecipes = recipes.filter((recipe) => {
+      return recipe['category'];
+    });
+    // add categories into an array
+    const categoryAll = filteredRecipes.map((recipe) => {
+      if (recipe.category) {
+        return recipe.category;
+      }
+    });
+    console.log(categoryAll);
+    // set creates an obj, spread the obj and encase in array
+    const categoryAllNoDupes = [...new Set(categoryAll)];
+    // add obj to array for it to pass correctly to ejs
+    res.render('index', { categoryAllNoDupes });
+  });
+});
+
+app.get('/category/:categories', (req, res) => {
+  const category = req.params.categories;
+  read('data.json', (err, content) => {
+    const { recipes } = content;
+    if (err) {
+      console.log('Read error', err);
+    }
+    // list filtered by category
+    const filteredList = recipes.filter((recipe) => {
+      if (recipe.category === category) {
+        return recipe.category;
+      }
+    });
+    res.render('category', { filteredList });
+  });
+});
+
+app.get('/recipe/:label', (req, res) => {
+  const { label } = req.params;
+  read('data.json', (err, content) => {
+    // filter file that matches label
+    const filteredList = content['recipes'].filter((recipe) => {
+      const newLabel = recipe.label.replace(/ /g, '').toLowerCase();
+      if (newLabel === label) {
+        return recipe.label;
+      }
+    });
+    res.render('recipes', { filteredList });
+  });
+});
+
+// app.get('/recipe/:index', (req, res) => {
+//   // get index number from browser req
+//   const index = req.params.index;
+//   read('data.json', (err, content) => {
+//     if (err) {
+//       console.log('Read Error', err);
+//     }
+//     if (content.recipes[index]) {
+//       res.send(content.recipes[index]);
+//     } else {
+//       res.status(404).send('We cannot find that.');
+//     }
+//   });
+// });
 
 /**
  * returns based on recipe label
