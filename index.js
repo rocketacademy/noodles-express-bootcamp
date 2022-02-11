@@ -4,6 +4,24 @@ import { read } from './jsonFileStorage.js';
 const PORT = 3004;
 
 const app = express();
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+
+
+const whenIncomingRequest = (req, res) => {
+  console.log(`request came in`)
+
+  read('data.json', (data, error) => {
+    if (error) {
+      console.log('read error', error);
+    }
+
+    const {recipes} = data;
+    console.log(recipes);
+    res.render('index', {recipes})
+  });
+};
+
 
 /**
  * http://localhost:3004/recipe/0
@@ -17,16 +35,12 @@ const whenIncomingRequestIndex = (req, res) => {
       console.log('read error', error);
     }
 
-    const indexOfRecipe  = req.params.index;
+    const {index}  = req.params;
 
-    const recipe = data.recipes[indexOfRecipe];
-
-    if (recipe) {
-      res.send(recipe);
-    } else {
-      res.status(404).send('sorry, we cannot find that!');
-    }
-  });
+    const recipes = data.recipes[index];
+  
+    res.render('individual-recipe', {recipes})
+});
 };
 
 /**
@@ -72,7 +86,7 @@ const whenIncomingRequestLabel = (request, response) => {
     else response.status(404).send('Sorry, we cannot find that!');
 });
 };
-
+app.get('/', whenIncomingRequest);
 app.get('/recipe/:index', whenIncomingRequestIndex);
 app.get('/yield/:portion',whenIncomingRequestYield);
 app.get('/recipe-label/:label',whenIncomingRequestLabel);
